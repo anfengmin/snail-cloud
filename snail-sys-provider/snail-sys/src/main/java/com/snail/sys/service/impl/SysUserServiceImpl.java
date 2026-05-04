@@ -38,6 +38,7 @@ import com.snail.sys.constants.SysConfigConstants;
 import com.snail.sys.domain.SysUserPost;
 import com.snail.sys.domain.SysUserRole;
 import com.snail.sys.dto.SysUserPageDTO;
+import com.snail.sys.dto.UserAddressUpdateDTO;
 import com.snail.sys.dto.UserPasswordUpdateDTO;
 import com.snail.sys.dto.UserProfileUpdateDTO;
 import com.snail.sys.dto.excel.SysUserImportExcelDTO;
@@ -94,6 +95,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     private final ExcelExportService excelExportService;
     private final ExcelImportService excelImportService;
     private final DictService dictService;
+    private final SysUserAddressService sysUserAddressService;
 
     /**
      * 分页查询
@@ -265,6 +267,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         profile.setRoleNames(CollUtil.isNotEmpty(user.getRoles())
                 ? user.getRoles().stream().map(SysRole::getRoleName).filter(StrUtil::isNotBlank).collect(Collectors.toList())
                 : new ArrayList<>());
+        // 查询默认地址
+        profile.setUserAddress(sysUserAddressService.getDefaultAddress(userId));
         return profile;
     }
 
@@ -466,7 +470,35 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         }
 
         fillAvatarForPersist(updateUser, dbUser.getAvatar());
-        return this.updateById(updateUser);
+        boolean userResult = this.updateById(updateUser);
+
+        // 更新地址信息（如果填写了收货人则保存地址）
+        if (StrUtil.isNotBlank(dto.getReceiverName()) || StrUtil.isNotBlank(dto.getDetailAddress())) {
+            UserAddressUpdateDTO addressDTO = new UserAddressUpdateDTO();
+            addressDTO.setId(dto.getAddressId());
+            addressDTO.setReceiverName(dto.getReceiverName());
+            addressDTO.setReceiverPhone(dto.getReceiverPhone());
+            addressDTO.setProvinceId(dto.getProvinceId());
+            addressDTO.setProvinceCode(dto.getProvinceCode());
+            addressDTO.setProvinceName(dto.getProvinceName());
+            addressDTO.setCityId(dto.getCityId());
+            addressDTO.setCityCode(dto.getCityCode());
+            addressDTO.setCityName(dto.getCityName());
+            addressDTO.setDistrictId(dto.getDistrictId());
+            addressDTO.setDistrictCode(dto.getDistrictCode());
+            addressDTO.setDistrictName(dto.getDistrictName());
+            addressDTO.setStreetId(dto.getStreetId());
+            addressDTO.setStreetCode(dto.getStreetCode());
+            addressDTO.setStreetName(dto.getStreetName());
+            addressDTO.setDetailAddress(dto.getDetailAddress());
+            addressDTO.setAddressTag(dto.getAddressTag());
+            addressDTO.setLongitude(dto.getLongitude());
+            addressDTO.setLatitude(dto.getLatitude());
+            addressDTO.setIsDefault(dto.getIsDefault() != null ? dto.getIsDefault() : 1);
+            sysUserAddressService.saveOrUpdateAddress(userId, addressDTO);
+        }
+
+        return userResult;
     }
 
     @Override

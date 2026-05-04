@@ -3,6 +3,8 @@ package com.snail.sys.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import com.snail.sys.vo.UserAddressVo;
+
 import java.util.Date;
 import java.util.List;
 
@@ -45,4 +47,7 @@ public class UserProfileVo {
 
     @Schema(description = "创建时间")
     private Date createTime;
+
+    @Schema(description = "默认地址信息")
+    private UserAddressVo userAddress;
 }

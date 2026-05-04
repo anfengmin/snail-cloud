@@ -54,4 +54,5 @@ public interface StorageClient {
      * @return 访问地址
      */
     String getObjectUrl(StorageConfig config, String objectKey);
+
 }

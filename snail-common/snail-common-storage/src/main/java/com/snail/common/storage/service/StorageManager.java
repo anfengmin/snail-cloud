@@ -63,4 +63,5 @@ public interface StorageManager {
      * @return 访问地址
      */
     String getObjectUrl(@Nullable String configKey, String objectKey);
+
 }
