@@ -3,6 +3,40 @@ snail:
   datasource:
     # 当前服务使用的数据库 schema
     schema: ${SNAIL_SYS_DB_SCHEMA:snail_sys}
+  mail:
+    register:
+      # 注册邮箱验证码有效时长（分钟）
+      expireMinutes: ${SNAIL_REGISTER_EMAIL_CODE_EXPIRE_MINUTES:10}
+      # 同一邮箱再次发送间隔（秒）
+      resendIntervalSeconds: ${SNAIL_REGISTER_EMAIL_CODE_RESEND_SECONDS:60}
+      # 邮件主题
+      subject: ${SNAIL_REGISTER_EMAIL_SUBJECT:Snail Cloud 注册验证码}
+
+spring:
+  mail:
+    # 邮件服务器地址
+    host: ${SNAIL_MAIL_HOST:}
+    # 邮件服务器端口
+    port: ${SNAIL_MAIL_PORT:25}
+    # 邮件账号
+    username: ${SNAIL_MAIL_USERNAME:}
+    # 发件人
+    from: ${SNAIL_MAIL_FROM:}
+    # 邮件密码
+    password: ${SNAIL_MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          # 是否开启 SMTP 认证
+          auth: true
+          starttls:
+            # 是否启用 STARTTLS
+            enable: true
+            # 是否强制要求 STARTTLS
+            required: true
+          socketFactory:
+            # SSL Socket 工厂
+            class: javax.net.ssl.SSLSocketFactory
 
 user:
   password:

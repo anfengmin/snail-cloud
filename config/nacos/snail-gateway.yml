@@ -25,8 +25,13 @@ security:
       - /auth/login
       - /sys/auth/login
       - /auth/smsLogin
+      - /sys/auth/smsLogin
       - /auth/xcxLogin
+      - /sys/auth/xcxLogin
       - /auth/register
+      - /sys/auth/register
+      - /auth/register/email-code
+      - /sys/auth/register/email-code
       - /resource/sms/code
       - /*/v3/api-docs
       - /csrf

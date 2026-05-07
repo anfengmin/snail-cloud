@@ -24,7 +24,9 @@ create table sys_user
     update_by   varchar(64)  default '' comment '更新者',
     update_time datetime comment '更新时间',
     remark      varchar(500) default null comment '备注',
-    primary key (id)
+    primary key (id),
+    unique key uk_sys_user_user_code (user_code),
+    unique key uk_sys_user_email (email)
 ) engine = innodb comment = '用户';
 
 -- 初始化-用户信息表数据
@@ -545,6 +547,9 @@ insert into sys_config values(2, '用户管理-账号初始密码',         'sys
 insert into sys_config values(3, '主框架页-侧边栏主题',           'sys.index.sideTheme',      'theme-dark',    'Y', 'admin', sysdate(), '', null, '深色主题theme-dark，浅色主题theme-light' );
 insert into sys_config values(4, '账号自助-是否开启用户注册功能', 'sys.account.registerUser', 'false',         'Y', 'admin', sysdate(), '', null, '是否开启注册用户功能（true开启，false关闭）');
 insert into sys_config values(11, 'OSS预览列表资源开关',        'sys.oss.previewListResource', 'true',      'Y', 'admin', sysdate(), '', null, 'true:开启, false:关闭');
+insert into sys_config values(12, '注册默认部门ID',             'sys.account.register.defaultDeptId', '100', 'Y', 'admin', sysdate(), '', null, '注册用户默认归属部门ID');
+insert into sys_config values(13, '注册默认角色标识',           'sys.account.register.defaultRoleKey', 'common', 'Y', 'admin', sysdate(), '', null, '注册用户默认角色标识');
+insert into sys_config values(14, '注册默认岗位编码',           'sys.account.register.defaultPostCode', 'sysUser', 'Y', 'admin', sysdate(), '', null, '注册用户默认岗位编码');
 
 -- ----------------------------
 -- 14、系统访问记录
