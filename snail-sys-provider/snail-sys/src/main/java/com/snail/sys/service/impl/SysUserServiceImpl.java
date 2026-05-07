@@ -127,7 +127,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     public LoginUser getUserInfo(String userCode) {
         // 使用 MPJ 关联查询用户、部门、角色信息
 //        SysUser sysUserInfo = this.lambdaQuery().eq(SysUser::getUserCode, userCode).one();
-        SysUser sysUserInfo = selectUserByUserName(userCode);
+        SysUser sysUserInfo = selectUserByAccount(userCode);
         if (ObjectUtil.isEmpty(sysUserInfo)) {
             throw new UserException("user.not.exists", userCode);
         }
@@ -140,7 +140,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         return buildLoginUser(sysUserInfo);
     }
 
-    private SysUser selectUserByUserName(String userCode) {
+    private SysUser selectUserByAccount(String userCode) {
         MPJLambdaWrapper<SysUser> wrapper = new MPJLambdaWrapper<SysUser>()
 //                .distinct()
                 .selectAll(SysUser.class) // 查询用户表所有字段
@@ -153,7 +153,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
                 .leftJoin(SysUserRole.class, SysUserRole::getUserId, SysUser::getId)
                 .leftJoin(SysRole.class, SysRole::getId, SysUserRole::getRoleId)
                 .eq(SysUser::getDeleted, UserConstants.USER_NORMAL)
-                .eq(SysUser::getUserCode, userCode);
+                .and(w -> w.eq(SysUser::getUserCode, userCode).or().eq(SysUser::getEmail, userCode));
 
 
         // 一个用户可能有多个角色，MPJ 会自动将多条记录折叠到 SysUser.roles 集合中
@@ -204,6 +204,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
                 .exists();
         if (exists) {
             throw new UserException("user.register.save.error", sysUser.getUserCode());
+        }
+        if (StrUtil.isNotBlank(sysUser.getEmail()) && checkEmailExists(sysUser)) {
+            throw new ServiceException("邮箱账号已存在");
         }
         fillAvatarForPersist(sysUser, null);
         return this.save(sysUser);

@@ -6,17 +6,20 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.snail.auth.form.EmailCodeBody;
 import com.snail.auth.form.LoginBody;
 import com.snail.auth.form.RegisterBody;
 import com.snail.auth.service.SysLoginService;
 import com.snail.common.core.constant.Constants;
+import com.snail.common.core.enums.BusinessType;
 import com.snail.common.core.utils.MessageUtils;
 import com.snail.common.core.utils.R;
+import com.snail.common.log.annotation.Log;
 import com.snail.common.satoken.utils.LoginUtils;
 import com.snail.sys.api.domain.LoginUser;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -34,6 +37,7 @@ import java.util.Map;
  */
 @Slf4j
 @Tag(name = "登录")
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 @RestController
@@ -75,11 +79,20 @@ public class OauthController {
     }
 
 
+    @Log(title = "用户注册", businessType = BusinessType.INSERT)
     @PostMapping("register")
     @Operation(summary = "用户注册")
-    public R<Void> register(@RequestBody RegisterBody registerBody) {
+    public R<Void> register(@Validated @RequestBody RegisterBody registerBody) {
         // 用户注册
         sysLoginService.register(registerBody);
+        return R.ok();
+    }
+
+    @Log(title = "发送注册邮箱验证码", businessType = BusinessType.INSERT)
+    @PostMapping("register/email-code")
+    @Operation(summary = "发送注册邮箱验证码")
+    public R<Void> sendRegisterEmailCode(@Validated @RequestBody EmailCodeBody body) {
+        sysLoginService.sendRegisterEmailCode(body.getEmail());
         return R.ok();
     }
 

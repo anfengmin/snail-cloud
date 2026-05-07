@@ -5,6 +5,8 @@ import com.snail.common.storage.model.StorageConfig;
 import com.snail.common.storage.model.StorageUploadRequest;
 import com.snail.common.storage.model.UploadResult;
 
+import java.io.InputStream;
+
 /**
  * 服务商存储客户端
  *
@@ -45,6 +47,15 @@ public interface StorageClient {
      * @return 是否存在
      */
     boolean exists(StorageConfig config, String objectKey);
+
+    /**
+     * 读取对象内容
+     *
+     * @param config    配置
+     * @param objectKey 对象键
+     * @return 对象输入流，调用方负责关闭
+     */
+    InputStream getContent(StorageConfig config, String objectKey);
 
     /**
      * 生成访问地址

@@ -2,6 +2,7 @@ package com.snail.auth.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import com.snail.auth.form.EmailCodeBody;
 import com.snail.auth.form.LoginBody;
 import com.snail.auth.form.RegisterBody;
 import com.snail.auth.service.SysLoginService;
@@ -68,9 +69,15 @@ public class TokenController {
      * 用户注册
      */
     @PostMapping("register")
-    public R<Void> register(@RequestBody RegisterBody registerBody) {
+    public R<Void> register(@Validated @RequestBody RegisterBody registerBody) {
         // 用户注册
         sysLoginService.register(registerBody);
+        return R.ok();
+    }
+
+    @PostMapping("register/email-code")
+    public R<Void> sendRegisterEmailCode(@Validated @RequestBody EmailCodeBody body) {
+        sysLoginService.sendRegisterEmailCode(body.getEmail());
         return R.ok();
     }
 }

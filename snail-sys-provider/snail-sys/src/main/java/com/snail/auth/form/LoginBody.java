@@ -4,8 +4,8 @@ import com.snail.common.core.constant.UserConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -21,11 +21,11 @@ import javax.validation.constraints.NotBlank;
 public class LoginBody {
 
     /**
-     * 用户名
+     * 登录账号
      */
-    @Schema(description = "用户名")
+    @Schema(description = "用户账号或邮箱")
     @NotBlank(message = "{user.username.not.blank}")
-    @Length(min = UserConstants.USERNAME_MIN_LENGTH, max = UserConstants.USERNAME_MAX_LENGTH, message = "{user.username.length.valid}")
+    @Size(min = 2, max = 50, message = "{user.username.length.valid}")
     private String userCode;
 
     /**
@@ -33,6 +33,6 @@ public class LoginBody {
      */
     @Schema(description = "用户密码")
     @NotBlank(message = "{user.password.not.blank}")
-    @Length(min = UserConstants.PASSWORD_MIN_LENGTH, max = UserConstants.PASSWORD_MAX_LENGTH, message = "{user.password.length.valid}")
+    @Size(min = UserConstants.PASSWORD_MIN_LENGTH, max = UserConstants.PASSWORD_MAX_LENGTH, message = "{user.password.length.valid}")
     private String passWord;
 }

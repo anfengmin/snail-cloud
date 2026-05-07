@@ -15,6 +15,7 @@ import com.snail.common.core.utils.R;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -43,6 +44,13 @@ public class SysOssController {
     @Operation(summary = "主键查询")
     public R<SysOss> queryById(@PathVariable("id") Long id) {
         return R.ok(sysOssService.getById(id));
+    }
+
+    @SaCheckPermission("system:oss:query")
+    @GetMapping("preview/{id}")
+    @Operation(summary = "在线预览文件")
+    public void preview(@PathVariable("id") Long id, HttpServletResponse response) {
+        sysOssService.preview(id, response);
     }
 
     @SaCheckPermission("system:oss:upload")

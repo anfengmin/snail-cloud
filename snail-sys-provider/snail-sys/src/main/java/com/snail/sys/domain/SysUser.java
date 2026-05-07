@@ -79,15 +79,19 @@ public class SysUser extends BaseEntity {
     @Schema(description = "最后登录时间")
     private Date loginDate;
 
+    @TableField(fill = FieldFill.INSERT)
     @Schema(description = "创建者")
     private String createBy;
 
+    @TableField(fill = FieldFill.INSERT)
     @Schema(description = "创建时间")
     private Date createTime;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @Schema(description = "更新者")
     private String updateBy;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @Schema(description = "更新时间")
     private Date updateTime;
 

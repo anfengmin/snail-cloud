@@ -92,6 +92,12 @@ public class StorageManagerImpl implements StorageManager {
     }
 
     @Override
+    public InputStream getContent(@Nullable String configKey, String objectKey) {
+        StorageConfig config = resolveConfig(configKey);
+        return resolveClient(config).getContent(config, objectKey);
+    }
+
+    @Override
     public String getObjectUrl(@Nullable String configKey, String objectKey) {
         StorageConfig config = resolveConfig(configKey);
         return resolveClient(config).getObjectUrl(config, objectKey);

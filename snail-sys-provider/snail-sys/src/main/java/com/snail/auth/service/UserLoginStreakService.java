@@ -45,6 +45,14 @@ public class UserLoginStreakService {
 
     private final SysUserService sysUserService;
 
+    /**
+     * 记录登录成功
+     *
+     * @param userId      用户ID
+     * @param loginIp     登录IP
+     * @param loginDate   登录时间
+     * @return 登录成功信息
+     */
     public UserLoginStreakSummaryVo recordLoginSuccess(Long userId, String loginIp, Date loginDate) {
         LocalDate today = toLocalDate(loginDate);
         RLock lock = RedisUtils.getClient().getLock(CacheConstants.LOGIN_STREAK_LOCK_KEY + userId);
@@ -93,6 +101,14 @@ public class UserLoginStreakService {
         return vo;
     }
 
+    /**
+     * 获取登录日历
+     *
+     * @param userId 用户ID
+     * @param year   年份
+     * @param month  月份
+     * @return 登录日历
+     */
     public UserLoginCalendarVo getCalendar(Long userId, Integer year, Integer month) {
         LocalDate now = LocalDate.now(LOGIN_ZONE_ID);
         int targetYear = ObjectUtil.defaultIfNull(year, now.getYear());
@@ -101,6 +117,7 @@ public class UserLoginStreakService {
         YearMonth yearMonth = YearMonth.of(targetYear, targetMonth);
         RBitSet bitSet = RedisUtils.getClient().getBitSet(buildCalendarKey(userId, targetYear));
 
+        // 构建日历
         List<UserLoginCalendarDayVo> days = new ArrayList<>(yearMonth.lengthOfMonth());
         for (int day = 1; day <= yearMonth.lengthOfMonth(); day++) {
             LocalDate date = yearMonth.atDay(day);
@@ -121,19 +138,45 @@ public class UserLoginStreakService {
         return vo;
     }
 
+    /**
+     * 记录登录日历
+     *
+     * @param userId 用户ID
+     * @param date   登录日期
+     */
     private void markLoginCalendar(Long userId, LocalDate date) {
         RBitSet bitSet = RedisUtils.getClient().getBitSet(buildCalendarKey(userId, date.getYear()));
         bitSet.set(date.getDayOfYear() - 1L, true);
     }
 
+    /**
+     * 构建日历缓存Key
+     *
+     * @param userId 用户ID
+     * @param year   年份
+     * @return 日历缓存Key
+     */
     private String buildCalendarKey(Long userId, int year) {
         return CacheConstants.LOGIN_CALENDAR_KEY + userId + ":" + year;
     }
 
+    /**
+     * 将Date转换为LocalDate
+     *
+     * @param loginDate 登录时间
+     * @return LocalDate
+     */
     private LocalDate toLocalDate(Date loginDate) {
         return Instant.ofEpochMilli(loginDate.getTime()).atZone(LOGIN_ZONE_ID).toLocalDate();
     }
 
+    /**
+     * 更新用户登录信息
+     *
+     * @param userId   用户ID
+     * @param loginIp  登录IP
+     * @param loginDate 登录时间
+     */
     private void updateUserLoginMeta(Long userId, String loginIp, Date loginDate) {
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>()
                 .eq(SysUser::getId, userId)

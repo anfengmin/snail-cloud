@@ -6,6 +6,8 @@ import com.snail.sys.domain.SysOss;
 import com.snail.sys.dto.SysOssPageDTO;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * OSS对象存储
  *
@@ -42,5 +44,13 @@ public interface SysOssService extends IService<SysOss> {
      * @return 上传记录
      */
     SysOss uploadContent(byte[] content, String originalFilename, String contentType, String configKey);
+
+    /**
+     * 在线预览文件
+     *
+     * @param id 文件主键
+     * @param response 响应
+     */
+    void preview(Long id, HttpServletResponse response);
 
 }

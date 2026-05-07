@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.ObjectMetadata;
+import com.aliyun.oss.model.OSSObject;
 import com.snail.common.storage.enums.StorageType;
 import com.snail.common.storage.exception.StorageException;
 import com.snail.common.storage.model.StorageConfig;
@@ -13,6 +14,10 @@ import com.snail.common.storage.service.StorageClient;
 import com.snail.common.storage.util.StorageEndpointUtils;
 import com.snail.common.storage.util.StoragePathUtils;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 阿里云 OSS 客户端
@@ -67,6 +72,27 @@ public class AliyunOssStorageClient implements StorageClient {
             throw new StorageException("阿里云 OSS 查询文件失败", e);
         } finally {
             shutdown(client);
+        }
+    }
+
+    @Override
+    public InputStream getContent(StorageConfig config, String objectKey) {
+        OSS client = createClient(config);
+        try {
+            OSSObject object = client.getObject(config.getBucketName(), objectKey);
+            return new FilterInputStream(object.getObjectContent()) {
+                @Override
+                public void close() throws IOException {
+                    try {
+                        super.close();
+                    } finally {
+                        shutdown(client);
+                    }
+                }
+            };
+        } catch (Exception e) {
+            shutdown(client);
+            throw new StorageException("阿里云 OSS 读取文件失败", e);
         }
     }
 

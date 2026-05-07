@@ -28,7 +28,7 @@ public final class JasyptCryptoTool {
 
     public static void main(String[] args) {
         String masterPassword = "snail-cloud-2026";
-        String plainText = "abcdefghijklmnopqrstuvwxyz";
+        String plainText = "VAdzN37aYW3nh2L6";
 
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setPassword(masterPassword);

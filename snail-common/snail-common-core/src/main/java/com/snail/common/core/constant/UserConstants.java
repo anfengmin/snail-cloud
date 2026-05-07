@@ -9,7 +9,7 @@ public interface UserConstants {
     /**
      * 平台内系统用户的唯一标志
      */
-    String SYS_USER = "SYS_USER";
+    String SYS_USER = "sys_user";
 
     /**
      * 正常状态

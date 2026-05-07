@@ -4,6 +4,8 @@ import com.snail.common.storage.model.UploadResult;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
+
 /**
  * 对象存储统一入口
  *
@@ -54,6 +56,15 @@ public interface StorageManager {
      * @param objectKey 对象键
      */
     void delete(String configKey, String objectKey);
+
+    /**
+     * 读取指定配置下的对象内容
+     *
+     * @param configKey 配置键，为空时使用默认配置
+     * @param objectKey 对象键
+     * @return 对象输入流，调用方负责关闭
+     */
+    InputStream getContent(@Nullable String configKey, String objectKey);
 
     /**
      * 生成指定配置下的对象访问地址

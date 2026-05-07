@@ -35,6 +35,16 @@ public interface CacheConstants {
     String SLIDING_CAPTCHA_CODE_KEY = "sliding_captcha_codes:";
 
     /**
+     * 邮箱验证码 redis key
+     */
+    String EMAIL_CODE_KEY = "email_codes:";
+
+    /**
+     * 邮箱验证码发送间隔锁 redis key
+     */
+    String EMAIL_CODE_SEND_LOCK_KEY = "email_code_send_lock:";
+
+    /**
      * 参数管理 cache key
      */
     String SYS_CONFIG_KEY = "sys_config:";

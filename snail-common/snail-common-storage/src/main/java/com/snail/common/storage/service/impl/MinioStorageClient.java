@@ -16,6 +16,8 @@ import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
 import io.minio.StatObjectArgs;
 
+import java.io.InputStream;
+
 /**
  * MinIO 客户端
  *
@@ -72,6 +74,19 @@ public class MinioStorageClient implements StorageClient {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public InputStream getContent(StorageConfig config, String objectKey) {
+        MinioClient client = createClient(config);
+        try {
+            return client.getObject(GetObjectArgs.builder()
+                    .bucket(config.getBucketName())
+                    .object(objectKey)
+                    .build());
+        } catch (Exception e) {
+            throw new StorageException("MinIO 读取文件失败", e);
         }
     }
 
