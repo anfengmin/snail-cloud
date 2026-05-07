@@ -43,7 +43,7 @@ CREATE TABLE `sys_config` (
 
 LOCK TABLES `sys_config` WRITE;
 /*!40000 ALTER TABLE `sys_config` DISABLE KEYS */;
-INSERT INTO `sys_config` VALUES (1,'主框架页-默认皮肤样式名称','sys.index.skinName','skin-blue','Y','admin','2025-05-21 21:44:06','',NULL,'蓝色 skin-blue、绿色 skin-green、紫色 skin-purple、红色 skin-red、黄色 skin-yellow'),(2,'用户管理-账号初始密码','sys.sysUser.initPassword','123456','Y','admin','2025-05-21 21:44:06','',NULL,'初始化密码 123456'),(3,'主框架页-侧边栏主题','sys.index.sideTheme','theme-dark','Y','admin','2025-05-21 21:44:06','',NULL,'深色主题theme-dark，浅色主题theme-light'),(4,'账号自助-是否开启用户注册功能','sys.account.registerUser','false','Y','admin','2025-05-21 21:44:06','',NULL,'是否开启注册用户功能（true开启，false关闭）'),(11,'OSS预览列表资源开关','sys.oss.previewListResource','true','Y','admin','2025-05-21 21:44:06','',NULL,'true:开启, false:关闭');
+INSERT INTO `sys_config` VALUES (1,'主框架页-默认皮肤样式名称','sys.index.skinName','skin-blue','Y','admin','2025-05-21 21:44:06','',NULL,'蓝色 skin-blue、绿色 skin-green、紫色 skin-purple、红色 skin-red、黄色 skin-yellow'),(2,'用户管理-账号初始密码','sys.sysUser.initPassword','123456','Y','admin','2025-05-21 21:44:06','',NULL,'初始化密码 123456'),(3,'主框架页-侧边栏主题','sys.index.sideTheme','theme-dark','Y','admin','2025-05-21 21:44:06','',NULL,'深色主题theme-dark，浅色主题theme-light'),(4,'账号自助-是否开启用户注册功能','sys.account.registerUser','false','Y','admin','2025-05-21 21:44:06','',NULL,'是否开启注册用户功能（true开启，false关闭）'),(11,'OSS预览列表资源开关','sys.oss.previewListResource','true','Y','admin','2025-05-21 21:44:06','',NULL,'true:开启, false:关闭'),(12,'注册默认部门ID','sys.account.register.defaultDeptId','100','Y','admin','2025-05-21 21:44:06','',NULL,'注册用户默认归属部门ID'),(13,'注册默认角色标识','sys.account.register.defaultRoleKey','common','Y','admin','2025-05-21 21:44:06','',NULL,'注册用户默认角色标识'),(14,'注册默认岗位编码','sys.account.register.defaultPostCode','sysUser','Y','admin','2025-05-21 21:44:06','',NULL,'注册用户默认岗位编码');
 /*!40000 ALTER TABLE `sys_config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -518,7 +518,9 @@ CREATE TABLE `sys_user` (
   `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_sys_user_user_code` (`user_code`),
+  UNIQUE KEY `uk_sys_user_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
