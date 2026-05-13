@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 /**
  * 对象存储配置
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 @Data

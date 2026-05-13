@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 /**
  * Dubbo 公共自动配置
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 @AutoConfiguration

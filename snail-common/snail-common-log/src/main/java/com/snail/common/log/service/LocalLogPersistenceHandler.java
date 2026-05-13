@@ -6,7 +6,7 @@ import com.snail.common.log.domain.SysOperateLog;
 /**
  * 本地日志持久化兜底接口
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 public interface LocalLogPersistenceHandler {

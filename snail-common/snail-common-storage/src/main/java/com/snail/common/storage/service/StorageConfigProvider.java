@@ -5,7 +5,7 @@ import com.snail.common.storage.model.StorageConfig;
 /**
  * 存储配置提供者
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 public interface StorageConfigProvider {

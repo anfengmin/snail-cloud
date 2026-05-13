@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 用户连续登录摘要
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 @Data

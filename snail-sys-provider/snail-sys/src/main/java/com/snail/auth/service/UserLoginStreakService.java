@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * 用户连续登录服务
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 @Service

@@ -8,7 +8,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 /**
  * Dubbo 自定义配置
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 @Data

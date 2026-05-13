@@ -9,7 +9,7 @@ import java.io.InputStream;
 /**
  * 对象存储统一入口
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 public interface StorageManager {

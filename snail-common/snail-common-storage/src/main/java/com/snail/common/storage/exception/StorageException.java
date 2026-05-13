@@ -3,7 +3,7 @@ package com.snail.common.storage.exception;
 /**
  * 对象存储异常
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 public class StorageException extends RuntimeException {

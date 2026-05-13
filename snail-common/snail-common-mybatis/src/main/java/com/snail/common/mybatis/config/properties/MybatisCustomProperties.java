@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * MyBatis Plus 公共配置项
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 @Data

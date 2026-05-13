@@ -10,7 +10,7 @@ import java.io.InputStream;
 /**
  * 服务商存储客户端
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 public interface StorageClient {

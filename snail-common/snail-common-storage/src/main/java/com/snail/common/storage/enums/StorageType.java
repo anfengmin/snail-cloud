@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 对象存储服务商类型
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 @Getter

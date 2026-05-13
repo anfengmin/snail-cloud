@@ -13,7 +13,7 @@ import java.util.Locale;
 /**
  * 登录终端上下文解析
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 public final class LoginContextResolver {

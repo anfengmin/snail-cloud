@@ -22,7 +22,7 @@ import org.apache.dubbo.rpc.RpcException;
  *
  * 强制提前初始化 Sa-Token 元数据，避免内网鉴权场景下的元数据加载报错。
  *
- * @author Codex
+ * @author Levi
  * @since 1.0
  */
 @Activate(group = {CommonConstants.CONSUMER}, order = Integer.MIN_VALUE)
